@@ -24,12 +24,17 @@ class User:
     def display_user_balance(self, key = "all"):
         if key == "all":
             for account in self.account:
-                print(account, end=": ")
+                print(self.name, account, end=": ")
                 self.account[account].display_account_info()
         elif key == "checking":
             self.account["checking"].display_account_info()
         elif key == "savings":
             self.account["savings"].display_account_info()
+    def transfer_money(self, amount, other_user, account1 = "checking", account2 = "checking"):
+        if self.account[account1].balance >= amount:
+            self.make_withdrawal(account1, amount)
+            other_user.make_deposit(account2, amount)
+
 
 
 class BankAccount:
@@ -59,7 +64,8 @@ class BankAccount:
         for account in BankAccount.all_accounts:
             account.display_account_info()
 
-user_1 = User("Brian", "iovinob2@gmail.com")
+user_1 = User("Brian", "b2@gmail.com")
+user_2 = User("Michael", "v2@gmail.com")
 '''
 print(user_1.name)
 user_1.account.display_account_info()
@@ -76,3 +82,9 @@ user_1.add_savings_account()
 user_1.display_user_balance()
 user_1.make_withdrawal("checking", 500, 2)
 user_1.display_user_balance()
+user_1.transfer_money(500, user_2)
+user_1.display_user_balance()
+user_2.display_user_balance()
+user_1.transfer_money(500, user_2)
+user_1.display_user_balance()
+user_2.display_user_balance()
